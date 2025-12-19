@@ -1,0 +1,47 @@
+# MCP Server and Client Requirements
+
+# Core MCP Library
+mcp>=0.6.0
+
+# FastMCP Framework
+fastmcp>=0.8.0
+
+# Async Support
+asyncio>=3.4.3
+
+# JSON Processing
+jsonschema>=4.17.0
+
+# Logging and Monitoring
+python-json-logger>=2.0.0
+
+# Testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+
+# Code Quality
+black>=23.0.0
+flake8>=6.0.0
+isort>=5.12.0
+mypy>=1.0.0
+
+# Documentation
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.2.0
+
+# Development Tools
+ipython>=8.0.0
+ipdb>=0.13.0
+python-dotenv>=0.21.0
+
+# Optional: For HTTP transport (future)
+aiohttp>=3.8.0
+fastapi>=0.95.0
+uvicorn>=0.21.0
+
+# Optional: For advanced monitoring
+prometheus-client>=0.16.0
+opentelemetry-api>=1.18.0
+opentelemetry-sdk>=1.18.0
