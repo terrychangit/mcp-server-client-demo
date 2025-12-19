@@ -141,6 +141,8 @@ mcp-python-demo/
 ├── server.py              # FastMCP Server implementation
 ├── client.py              # MCP Client implementation
 ├── examples.py            # 6 Real-world usage examples
+├── ai_integration.py      # AI model integration examples
+├── .env                   # AI configuration template
 ├── requirements.txt       # Python dependencies
 ├── README.md             # This file (with merged quick start)
 ```
@@ -306,16 +308,60 @@ pytest -v
 Run the comprehensive examples to see all MCP features in action:
 
 ```bash
+# Run MCP protocol examples (no AI API key needed)
 python examples.py
+
+# Run AI integration examples (requires API key)
+python ai_integration.py
 ```
 
-This will execute 6 real-world usage patterns demonstrating:
+The `examples.py` demonstrates the MCP protocol itself with 6 real-world usage patterns:
 - Sales data analysis workflows
 - Resource access patterns
 - Prompt template usage
 - Batch operations with concurrency
 - Complex multi-step workflows
 - Error handling and recovery
+
+The `ai_integration.py` shows how to use MCP tools with real AI models. It supports OpenAI-compatible APIs (including Azure AI, DeepSeek, etc.) through environment variables.
+
+### Quick Setup
+
+**Use .env file**
+
+1. Copy the `.env` file and update with your values:
+```bash
+cp .env .env.local  # Create your local config
+# Edit .env.local with your actual API key and endpoint
+```
+
+2. The application automatically loads from `.env` file.
+
+**Environment Variables in .env:**
+
+```bash
+# AI Configuration for MCP Integration
+AI_ENDPOINT=https://your-endpoint.openai.azure.com/openai/v1/
+AI_MODEL_NAME=your-model-name
+AI_DEPLOYMENT_NAME=your-deployment-name
+AI_API_KEY=your-api-key-here
+```
+
+**Configuration Priority:**
+- Environment variables (highest)
+- `.env.local` (your personal config)
+- `.env` (template/fallback values)
+
+**Security Notes:**
+- `.env` files are automatically ignored by git
+- Never commit `.env.local` or files containing real API keys
+- Use `.env.local` for your personal development configuration
+
+### Supported AI Providers
+
+- ✅ **Azure OpenAI** - Use your Azure AI endpoint
+- ✅ **DeepSeek** - Compatible with DeepSeek models
+- ✅ **Other OpenAI-compatible APIs** - Any service using OpenAI's API format
 
 **Expected Output:**
 
@@ -469,6 +515,97 @@ EXAMPLE 6: Error Handling & Recovery
 ✅ ALL EXAMPLES COMPLETED SUCCESSFULLY!
 ============================================================
 ```
+
+## 📖 **Example Explanations**
+
+### Example 1: Sales Data Analysis Workflow
+
+**What it demonstrates:** Basic MCP tool calling and data retrieval.
+
+**MCP Flow:**
+1. Client connects to server via STDIO
+2. Client calls `fetch_sales_data` tool with `{"region": "APAC", "year": 2024}`
+3. Server executes business logic (database query/mock data)
+4. Server returns JSON: `{"total_revenue": 125000.5, "growth_rate": 0.15, ...}`
+5. Client parses and displays formatted results
+
+**Key Concepts:** Tool calling, JSON-RPC protocol, data parsing, error handling.
+
+### Example 2: Resource Access Patterns
+
+**What it demonstrates:** Reading static and dynamic resources.
+
+**MCP Flow:**
+1. Client requests static resource: `resource://company/config`
+2. Server returns company configuration JSON
+3. Client requests dynamic resource: `report://quarterly`
+4. Server generates quarterly report (text format)
+5. Client displays both resource types
+
+**Key Concepts:** Static vs dynamic resources, URI-based access, different content types.
+
+### Example 3: Prompt Template Usage
+
+**What it demonstrates:** Retrieving and using prompt templates.
+
+**MCP Flow:**
+1. Client requests prompt: `sales_analysis_prompt` with `{"region": "APAC"}`
+2. Server returns structured prompt messages
+3. Client parses JSON content from prompt messages
+4. Client displays formatted prompt content
+
+**Key Concepts:** Prompt templating, message formatting, parameter substitution.
+
+### Example 4: Batch Operations
+
+**What it demonstrates:** Concurrent tool calls and parallel processing.
+
+**MCP Flow:**
+1. Client creates tasks for multiple regions: APAC, EMEA, AMERICAS
+2. Client uses `asyncio.gather()` for concurrent execution
+3. All three `fetch_sales_data` calls execute in parallel
+4. Client aggregates results and calculates totals
+5. Client displays comparative analysis
+
+**Key Concepts:** Async concurrency, batch processing, result aggregation.
+
+### Example 5: Complex Analysis Workflow
+
+**What it demonstrates:** Chaining multiple tools in sequence.
+
+**MCP Flow:**
+1. Step 1: `fetch_sales_data` → get revenue
+2. Step 2: `calculate_metrics` → compute profit from revenue+expenses
+3. Step 3: `forecast_trend` → generate predictions
+4. Client combines all results for comprehensive analysis
+
+**Key Concepts:** Tool chaining, workflow orchestration, multi-step analysis.
+
+### Example 6: Error Handling & Recovery
+
+**What it demonstrates:** Robust error handling and graceful degradation.
+
+**MCP Flow:**
+1. Test 1: Invalid region → catches error, retries with fallback
+2. Test 2: Missing resource → handles gracefully
+3. Test 3: Input validation → corrects invalid data
+4. Test 4: Timeout protection → prevents hanging
+
+**Key Concepts:** Error recovery, input validation, timeout handling, fallback strategies.
+
+### AI Integration Example
+
+**What it demonstrates:** Using MCP tools with real AI models.
+
+**Flow:**
+1. Load AI configuration from `.env` file
+2. Test AI connection with simple query
+3. Connect to MCP server
+4. AI analyzes query and requests tools automatically
+5. MCP tools execute and return data
+6. AI synthesizes tool results into final answer
+
+**Key Concepts:** Function calling, tool-augmented AI, environment configuration, API integration.
 
 ### Step 6: Exploring the Code
 

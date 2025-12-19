@@ -154,7 +154,6 @@ logs/
 *.bak
 
 # Azure OpenAI keys and secrets
-.env.local
 .env.production
 .env.staging
 
